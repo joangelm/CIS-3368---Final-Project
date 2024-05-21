@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); %>
+        <title>Cargo</title>
+    </head>
+    <body class="container">
+        <header><%- include('../partials/navbar'); %></header>
+        <main>
+            <% if (locals.error) { %>
+            <div class="modal" id="myModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">ERROR</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Too much weight!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                var myModal = new bootstrap.Modal(document.getElementById("myModal"));
+                myModal.show();
+            </script>
+            <% } %>
+            <!-- Row div to list cargo -->
+            <div class="row">
+                <div>
+                    <div class="jumbotron">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1>Cargo List</h1>
+                            <div>
+                                <button onclick="onToggleArrivedCargo()" class="btn btn-outline-dark" for="btn-check-outlined">Toggle Arrived</button>
+                            </div>
+                        </div>
+                        <br />
+                        <ul class="d-flex flex-column gap-1" id="cargolist">
+                            <% if (locals.cargo) { %> <% locals.cargo.forEach(function(cargo) { %>
+                            <li
+                                class="d-flex gap-2 justify-content-between bg-light bg-gradient px-4 py-3 border rounded-2 shadow-sm"
+                                style="list-style: none"
+                            >
+                                <div>
+                                    <strong>Cargo ID:</strong> <%= cargo.id %><br />
+                                    <strong>Ship ID:</strong> <%= cargo.shipid %><br />
+                                </div>
+                                <div>
+                                    <strong>Cargotype:</strong> <%= cargo.cargotype %><br />
+                                    <strong>Weight:</strong> <%= cargo.weight %><br />
+                                </div>
+                                <div>
+                                    <strong>Departure:</strong> <%= cargo.departure %><br />
+                                    <strong>Arrival:</strong> <span class="date-arrived"><%= cargo.arrival %></span><br />
+                                </div>
+                            </li>
+                            <% }); %> <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to add a cargo -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <h1>Add New Cargo</h1>
+                        <br />
+                        <form action="/api/cargo" method="post">
+                            <label for="cargotype">Cargo Type:</label>
+                            <input type="text" name="cargotype" id="cargotype" required /><br />
+
+                            <label for="weight">Weight:</label>
+                            <input type="number" name="weight" id="weight" required /><br />
+
+                            <label for="departure">Departure:</label>
+                            <input type="date" name="departure" id="departure" required /><br />
+
+                            <label for="arrival">Arrival:</label>
+                            <input type="date" name="arrival" id="arrival" required /><br />
+
+                            <label for="shipid">Ship ID:</label>
+                            <input type="number" name="shipid" id="shipid" required /><br />
+
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to update a cargo -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Update Cargo</h1>
+                            <form action="/api/cargo/update" method="post">
+                                <div class="form-group">
+                                    <label for="cargoid">Cargo ID:</label>
+                                    <input type="number" class="form-control" id="cargoid" name="cargoid" value="<%= cargo.id %>" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="cargotype">Cargo Type:</label>
+                                    <input type="text" class="form-control" id="cargotype" name="cargotype" value="<%= cargo.cargotype %>" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="weight">Weight:</label>
+                                    <input type="number" class="form-control" id="weight" name="weight" value="<%= cargo.weight %>" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="departure">Departure:</label>
+                                    <input type="date" class="form-control" id="departure" name="departure" value="<%= cargo.weight %>" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="arrival">Arrival:</label>
+                                    <input type="date" class="form-control" id="arrival" name="arrival" value="<%= cargo.arrival %>" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="shipid">Ship ID:</label>
+                                    <input type="number" class="form-control" id="shipid" name="shipid" value="<%= cargo.shipid %>" required />
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to delete a cargo -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Delete Cargo</h1>
+                            <form action="/api/cargo/delete" method="post">
+                                <div class="mb-3">
+                                    <label for="cargoid" class="form-label">Cargo ID</label>
+                                    <input type="number" class="form-control" id="cargoid" name="cargoid" required />
+                                </div>
+
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <hr class="my-5" />
+        <footer><%- include('../partials/footer'); %></footer>
+
+        <script>
+            const cargolist = document.getElementById("cargolist");
+
+            function onToggleArrivedCargo() {
+                const cargos = cargolist.children;
+                for (const cargo of cargos) {
+                    const currentDate = new Date();
+                    const arrival = cargo.getElementsByClassName("date-arrived")[0].innerText;
+                    const targetDate = new Date(arrival);
+                    if (currentDate.getTime() <= targetDate.getTime()) {
+                        cargo.classList.toggle("d-none");
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

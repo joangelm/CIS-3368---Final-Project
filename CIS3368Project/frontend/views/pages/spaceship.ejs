@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); %>
+        <title>Spaceship</title>
+    </head>
+    <body class="container">
+        <header><%- include('../partials/navbar'); %></header>
+        <main>
+            <!-- Row div to list spaceship -->
+            <div class="row">
+                <div>
+                    <div class="jumbotron">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1>Spaceship List</h1>
+                        </div>
+                        <br />
+                        <ul class="d-flex flex-column gap-1" id="spaceshiplist">
+                            <% if (locals.spaceship) { %> <% locals.spaceship.forEach(function(spaceship) { %>
+                            <li
+                                class="d-flex gap-2 justify-content-between bg-light bg-gradient px-4 py-3 border rounded-2 shadow-sm"
+                                style="list-style: none"
+                            >
+                                <div><strong>Spaceship ID:</strong> <%= spaceship.id %><br /></div>
+                                <div><strong>Max Weight:</strong> <%= spaceship.maxweight %><br /></div>
+                                <div><strong>Captain ID:</strong> <%= spaceship.captainid %><br /></div>
+                            </li>
+                            <% }); %> <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to add a spaceship -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <h1>Add New Spaceship</h1>
+                        <br />
+                        <form action="/api/spaceship" method="post">
+                            <label for="maxweight">Max Weight:</label>
+                            <input type="number" name="maxweight" id="maxweight" required /><br />
+
+                            <label for="captainid">Captain ID:</label>
+                            <input type="number" name="captainid" id="captainid" required /><br />
+
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to update a spaceship -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Update Spaceship</h1>
+                            <form action="/api/spaceship/update" method="post">
+                                <div class="form-group">
+                                    <label for="spaceshipid">Spaceship ID:</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="spaceshipid"
+                                        name="spaceshipid"
+                                        value="<%= spaceship.id %>"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="maxweight">Max Weight:</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="maxweight"
+                                        name="maxweight"
+                                        value="<%= spaceship.maxweight %>"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="captainid">Captain ID:</label>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="captainid"
+                                        name="captainid"
+                                        value="<%= spaceship.captainid %>"
+                                        required
+                                    />
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to delete a spaceship -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Delete Spaceship</h1>
+                            <form action="/api/spaceship/delete" method="post">
+                                <div class="mb-3">
+                                    <label for="spaceshipid" class="form-label">Spaceship ID</label>
+                                    <input type="number" class="form-control" id="spaceshipid" name="spaceshipid" required />
+                                </div>
+
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <hr class="my-5" />
+        <footer><%- include('../partials/footer'); %></footer>
+    </body>
+</html>

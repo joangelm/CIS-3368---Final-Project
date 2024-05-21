@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); %>
+        <title>Captain</title>
+    </head>
+    <body class="container">
+        <header><%- include('../partials/navbar'); %></header>
+        <main>
+            <!-- Row div to list captain -->
+            <div class="row">
+                <div>
+                    <div class="jumbotron">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1>Captain List</h1>
+                        </div>
+                        <br />
+                        <ul class="d-flex flex-column gap-1" id="captainlist">
+                            <% if (locals.captain) { %> <% locals.captain.forEach(function(captain) { %>
+                            <li
+                                class="d-flex gap-2 justify-content-between bg-light bg-gradient px-4 py-3 border rounded-2 shadow-sm"
+                                style="list-style: none"
+                            >
+                                <div>
+                                    <strong>Captain ID:</strong> <%= captain.id %><br />
+                                    <strong>Rank:</strong> <%= captain.rankstatus %><br />
+                                </div>
+                                <div>
+                                    <strong>First Name:</strong> <%= captain.firstname %><br />
+                                    <strong>Last Name:</strong> <%= captain.lastname %><br />
+                                </div>
+                                <div>
+                                    <strong>Home Planet:</strong><br />
+                                    <%= captain.homeplanet %>
+                                </div>
+                            </li>
+                            <% }); %> <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to add a captain -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <h1>Add New Captain</h1>
+                        <br />
+                        <form action="/api/captain" method="post">
+                            <label for="firstname">First Name:</label>
+                            <input type="text" name="firstname" id="firstname" required /><br />
+
+                            <label for="lastname">Last Name:</label>
+                            <input type="text" name="lastname" id="lastname" required /><br />
+
+                            <label for="rankstatus">Rank:</label>
+                            <input type="text" name="rankstatus" id="rankstatus" required /><br />
+
+                            <label for="homeplanet">Home Planet:</label>
+                            <input type="text" name="homeplanet" id="homeplanet" required /><br />
+
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to update a captain -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Update Captain</h1>
+                            <form action="/api/captain/update" method="post">
+                                <div class="form-group">
+                                    <label for="captainid">Captain ID:</label>
+                                    <input type="number" class="form-control" id="captainid" name="captainid" value="<%= captain.id %>" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstname">First Name:</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="firstname"
+                                        name="firstname"
+                                        value="<%= captain.firstname %>"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname">Last Name:</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname" value="<%= captain.lastname %>" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="rankstatus">Rank:</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="rankstatus"
+                                        name="rankstatus"
+                                        value="<%= captain.rankstatus %>"
+                                        required
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="homeplanet">Home Planet:</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="homeplanet"
+                                        name="homeplanet"
+                                        value="<%= captain.homeplanet %>"
+                                        required
+                                    />
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-5" />
+            <!-- Row div to delete a captain -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1>Delete Captain</h1>
+                            <form action="/api/captain/delete" method="post">
+                                <div class="mb-3">
+                                    <label for="captainid" class="form-label">Captain ID</label>
+                                    <input type="number" class="form-control" id="captainid" name="captainid" required />
+                                </div>
+
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <hr class="my-5" />
+        <footer><%- include('../partials/footer'); %></footer>
+    </body>
+</html>
